@@ -12,21 +12,29 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return object
+     */
     public function add(Request $request)
     {
         $response =
             $this->validate(
                 $request, [
-                    'name' => 'required|max:255',
+                    'firstname' => 'required|max:255',
+                    'surname' => 'required|max:255',
                     'email' => 'required|email|unique:users',
                     'password' => 'required'
                 ]
             );
 
         $user = new User();
-        $user->name = $request->name;
+        $user->firstname = $request->firstname;
+        $user->surname = $request->surname;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->role_id = 1;
+
 
         $user->save();
 
@@ -36,11 +44,14 @@ class UserController extends Controller
                 [
                     'response' => [
                         'created' => true,
-                        'userId' => $user->id
+                        'userId' => $user->id,
+                        'message' => 'Welcome to Amebo!'
                     ]
                 ], 201
             );
         }
         return $response;
     }
+
+
 }

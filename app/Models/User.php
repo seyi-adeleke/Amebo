@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'firstname','surname', 'email', 'password', 'role_id'
     ];
 
     /**
@@ -31,9 +31,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     public static $rules = [
-        "name" => "string",
+        "firstname" => "string",
+        "surname" => "string",
         "email" => "string",
-        "password" => "string"
+        "password" => "string",
+        "role_id" => 'integer'
     ];
 
     public function question() {

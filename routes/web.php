@@ -21,4 +21,5 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => $prefix], function () use ($router) {
     $router->post('users', 'UserController@add');
+    $router->get('users/all', 'UserController@getAll');
 });

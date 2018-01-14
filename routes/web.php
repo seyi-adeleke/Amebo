@@ -18,7 +18,18 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+/**
+ * Admin routes
+ */
+$router->group(['prefix' => $prefix, 'middleware' => 'auth:api'], function () use ($router) {
+    $router->get('users/all', 'UserController@getAll');
+});
 
+/**
+ * Authentication routes
+ */
 $router->group(['prefix' => $prefix], function () use ($router) {
     $router->post('users', 'UserController@add');
+    $router->post('/auth/login', 'AuthController@postLogin');
 });
+

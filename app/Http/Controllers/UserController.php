@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+
 
 
 
 
 class UserController extends Controller
 {
+
     /**
      * @param Request $request
      * @return object
@@ -35,8 +38,6 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role_id = 1;
-
-
         $user->save();
 
         if($user->save())
@@ -54,10 +55,25 @@ class UserController extends Controller
         return $response;
     }
 
-    public function getAll(Request $request)
+    public function getAll()
     {
+        $user = JWTAuth::parseToken()->toUser();
+        if (Gate::allows('view-allUsers', $user))
+        {
+            $users = User::get();
+            return $users;
+        }
+        else
+        {
+            $response = response()->json(
+                [
+                    'response' => [
+                        'message' => 'You do not have access to this route'
+                    ]
+                ], 401
+            );
+            return $response;
+        }
 
-        $users = User::get();
-        return $users;
     }
 }

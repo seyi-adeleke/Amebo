@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Questions Extends Model
+class Question Extends Model
 {
     protected $table = 'questions';
 
     protected $fillable = ['question'];
+
+    public static $rules = [
+        "question" => "string",
+    ];
 
     public function user()
     {

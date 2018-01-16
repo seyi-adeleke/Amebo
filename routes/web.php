@@ -39,3 +39,4 @@ $router->group(['prefix' => $prefix], function () use ($router) {
 $router->group(['prefix' => $prefix], function () use ($router) {
     $router->post('users/{userId}/questions/add', 'UserController@askQuestion');
 });
+

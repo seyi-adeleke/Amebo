@@ -25,6 +25,15 @@ class UserController extends Controller
     {
         $this->validate($request, User::$rules);
 
+        $response =
+            $this->validate(
+                $request, [
+                    'firstname' => 'required|max:255',
+                    'surname' => 'required|max:255',
+                    'email' => 'required|email|unique:users',
+                    'password' => 'required'
+                ]
+            );
 
         $user = new User();
         $user->firstname = $request->firstname;

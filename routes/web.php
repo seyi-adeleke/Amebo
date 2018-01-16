@@ -33,3 +33,9 @@ $router->group(['prefix' => $prefix], function () use ($router) {
     $router->post('/auth/login', 'AuthController@postLogin');
 });
 
+/**
+ *
+ */
+$router->group(['prefix' => $prefix], function () use ($router) {
+    $router->post('users/{userId}/questions/add', 'UserController@askQuestion');
+});

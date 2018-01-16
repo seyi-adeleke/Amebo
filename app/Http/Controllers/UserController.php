@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Question;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,15 +23,8 @@ class UserController extends Controller
      */
     public function add(Request $request)
     {
-        $response =
-            $this->validate(
-                $request, [
-                    'firstname' => 'required|max:255',
-                    'surname' => 'required|max:255',
-                    'email' => 'required|email|unique:users',
-                    'password' => 'required'
-                ]
-            );
+        $this->validate($request, User::$rules);
+
 
         $user = new User();
         $user->firstname = $request->firstname;
@@ -74,6 +68,30 @@ class UserController extends Controller
             );
             return $response;
         }
+
+    }
+
+    public function askQuestion(Request $request, $userId)
+    {
+        $this->validate($request, Question::$rules);
+
+        $question = new Question();
+        $question->question =  $request->question;
+        $question->user_id = $userId;
+
+        if($question->save())
+        {
+            $response =response()->json(
+                [
+                    'response' => [
+                        'created' => true,
+                        'questionId' => $question->id,
+                        'question' =>  $request->question,
+                    ]
+                ], 201
+            );
+        }
+        return $response;
 
     }
 }

@@ -90,17 +90,17 @@ class UserController extends Controller
 
         if($question->save())
         {
-            $response =response()->json(
+            $response = response()->json(
                 [
                     'response' => [
                         'created' => true,
                         'questionId' => $question->id,
-                        'question' =>  $request->question,
+                        'question' =>  $question->question,
+                        'owner' => $question->user_id,
                     ]
                 ], 201
             );
         }
         return $response;
-
     }
 }

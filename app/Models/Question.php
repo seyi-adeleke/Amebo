@@ -9,10 +9,14 @@ class Question Extends Model
 {
     protected $table = 'questions';
 
-    protected $fillable = ['question'];
+    protected $fillable = [
+        'question',
+        'user_id'
+    ];
 
     public static $rules = [
-        "question" => "string",
+        "question" => 'required|string',
+        "user_id" => 'numeric'
     ];
 
     public function user()

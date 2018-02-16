@@ -80,7 +80,7 @@ class UserController extends Controller
 
     }
 
-    public function askQuestion(Request $request, $userId)
+    public function addQuestion(Request $request, $userId)
     {
         $this->validate($request, Question::$rules);
 

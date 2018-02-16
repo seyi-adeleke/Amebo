@@ -37,6 +37,11 @@ $router->group(['prefix' => $prefix], function () use ($router) {
  *
  */
 $router->group(['prefix' => $prefix], function () use ($router) {
-    $router->post('users/{userId}/questions/add', 'UserController@askQuestion');
+    $router->post('users/{userId}/questions/add', 'UserController@addQuestion');
+});
+
+
+$router->group(['prefix' => $prefix, 'middleware' => ['auth:api', 'authorization']], function () use ($router) {
+   $router->post('users/{userId}/questions/{questionId}', 'QuestionController@answerQuestion');
 });
 
